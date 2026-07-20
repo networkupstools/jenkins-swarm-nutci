@@ -13,8 +13,16 @@
 #webSocket: false
 #EOF
 
-[ -n "$TMPDIR" ] && [ -d "$TMPDIR" ] || TMPDIR="${SHMDIR}"
-[ -n "$TMPDIR" ] && [ -d "$TMPDIR" ] || TMPDIR=/tmp/jenkins-swarm
+#[ -n "$TMPDIR" ] && [ -d "$TMPDIR" ] || TMPDIR="${SHMDIR}"
+#[ -n "$TMPDIR" ] && [ -d "$TMPDIR" ] || TMPDIR=/tmp/jenkins-swarm
+
+# Avoid ultra-long paths (probably inherited from launchd context) like
+# /private/var/folders/7k/50lbl5md03s60b0nz5vx_3lw0000gn/T/jenkins-nutci/
+# which overwhelm NUT CONFIG_FLAGS macro length en-masse :)
+#TMPDIR=/tmp/jenkins-swarm
+
+# NOTE: Even so, `/private` is prepended in practice:
+TMPDIR=/tmp/shm
 mkdir -p "$TMPDIR" || exit
 export TMPDIR
 
