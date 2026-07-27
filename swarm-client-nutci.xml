@@ -4,6 +4,9 @@
   Copyright (C)
     2021-2026 by Jim Klimov <jimklimov+nut@gmail.com>
   License: MIT
+
+  (Re-)register: svccfg import swarm-client-nutci.xml && svcadm enable nutci
+  Restart: svcadm restart nutci
  -->
 <!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
 <service_bundle type='manifest' name='export'>
