@@ -28,7 +28,7 @@ getLastVer_Incrementals() {
 	( curl $CURL_OPTS "${BASEURL}" || wget $WGET_OPTS -O - "${BASEURL}" ) \
 	| grep -E '<a href="[0-9]+\.v[0-9a-f_]+/">' \
 	| sed 's,^.*a href="\([0-9][0-9]*\.v[0-9a-f_]*\)/*".*$,\1,' \
-	| grep -vE '^\d\.' \
+	| grep -vE '^\[0-9]\.' \
 	| sort -t. -k1,1n -k2,2n \
 	| tail -1
 }
