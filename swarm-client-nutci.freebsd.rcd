@@ -7,8 +7,11 @@
 #
 # FreeBSD rc.d for jenkins swarm client
 # Symlink as /etc/rc.d/swarm_client_nutci and then
-#   enable: echo 'swarm_client_nutci_enable="YES"' >> /etc/rc.conf
+#   sysrc swarm_client_nutci_enable="YES"
 #   service swarm_client_nutci start
+#
+# PROVIDE: swarm_client_nutci
+# REQUIRE: FILESYSTEMS LOGIN NETWORKING
 
 # FIXME: Make configurable?
 if [ -d /var/shm ] ; then
@@ -52,10 +55,16 @@ daemon="/home/abuild/jenkins-swarm/swarm-client-nutci.sh"
 #daemon="/bin/sh -c \\' cd \"${SHMDIR}\" && nohup /home/abuild/jenkins-swarm/swarm-client-nutci.sh >> /var/log/swarm-client-nutci 2>&1 \\' &"
 
 # Allow to restart the service on command line (or via rcctl)
-INRC=1
-$_rc_subr_loaded . /etc/rc.subr
+#INRC=1
+#$_rc_subr_loaded \
+. /etc/rc.subr
 
 name="swarm_client_nutci"
+desc="Jenkins Swarm Client integration for NUT CI farm"
+rcvar="${name}_enable"
+
+load_rc_config $name
+
 start_precmd="rc_pre"
 start_cmd="rc_start"
 stop_cmd="rc_stop"
@@ -97,5 +106,4 @@ rc_check() {
 #OPENBSD# rc_cmd $1
 
 # NetBSD, FreeBSD
-load_rc_config $name
 run_rc_command "$1"
